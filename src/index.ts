@@ -8,10 +8,11 @@ import { showRoutes } from 'hono/dev';
 import { logger as httpLogger } from 'hono/logger';
 import { trimTrailingSlash } from 'hono/trailing-slash';
 
+import { connectDB } from './config/database';
 import { logger } from './config/logger';
 import { NODE_ENVIRONMENTS } from './libs/constants';
 import { tracing } from './middlewares/tracing';
-import { configureRoutes, shutDownWorker } from './routes';
+import { configureRoutes } from './routes';
 
 const app = new Hono();
 
@@ -22,7 +23,6 @@ app.use(compress());
 app.use(httpLogger());
 app.use(trimTrailingSlash());
 
-console.log(env.DATABASE_URL);
 //configur all routes
 configureRoutes(app);
 
@@ -30,6 +30,9 @@ if (env.NODE_ENV === NODE_ENVIRONMENTS.development) {
     console.log('Available routes:');
     showRoutes(app);
 }
+
+//db connection
+connectDB();
 
 const port = parseInt(env.PORT);
 logger.info(`Server is running on port: ${port}, env: ${env.NODE_ENV}`);
@@ -40,9 +43,6 @@ process.on('SIGTERM', () => {
 
     logger.info('Closing http server');
     server.close(async () => {
-        logger.info('Closing worker');
-        await shutDownWorker();
-
         logger.info('Exiting...');
         process.exit(0);
     });

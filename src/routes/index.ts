@@ -1,7 +1,6 @@
 import { Worker } from 'bullmq';
 import { Hono } from 'hono';
 import { serveInternalServerError, serveNotFound } from '../errorHandlers/error';
-import { connection } from '../libs/queue';
 
 let worker: Worker | undefined;
 
@@ -46,8 +45,3 @@ export function configureRoutes(app: Hono) {
 
 //     api.route('/user', user);
 // }
-
-export async function shutDownWorker() {
-    await worker?.close();
-    await connection.quit();
-}
