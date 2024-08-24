@@ -1,17 +1,29 @@
-version: "3.8"
+version: '3.8'
 services:
-  mysql:
-    image: mysql
-    restart: no
-    ports:
-      - "3306:3306"
+  db:
+    container_name: db
+    image: postgres:16
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: db
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
 
   redis:
     image: redis
     ports:
       - "6379:6379"
+      
+volumes:
+  db-data:
