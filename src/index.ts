@@ -11,18 +11,24 @@ import { trimTrailingSlash } from 'hono/trailing-slash';
 import { logger } from './config/logger';
 import { NODE_ENVIRONMENTS } from './libs/constants';
 import { tracing } from './middlewares/tracing';
-import { configureRoutes, shutDownWorker } from './routes';
+import { configureRoutes } from './routes';
 
 const app = new Hono();
 
+const corsOptions = {
+    origin: env.ORIGIN.split(' '),
+    allowMethods: ['POST', 'GET', 'PUT', 'DELETE', 'FETCH'],
+    maxAge: 600,
+    credentials: true,
+};
+
 // Generic middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(tracing);
 app.use(compress());
 app.use(httpLogger());
 app.use(trimTrailingSlash());
 
-console.log(env.DATABASE_URL);
 //configur all routes
 configureRoutes(app);
 
@@ -40,8 +46,8 @@ process.on('SIGTERM', () => {
 
     logger.info('Closing http server');
     server.close(async () => {
-        logger.info('Closing worker');
-        await shutDownWorker();
+        // logger.info('Closing worker');
+        // await shutDownWorker();
 
         logger.info('Exiting...');
         process.exit(0);

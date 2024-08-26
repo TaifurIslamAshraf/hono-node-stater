@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 version: '3.8'
 services:
   db:
     container_name: db
     image: postgres:16
+=======
+services:
+  db:
+    container_name: db
+    image: postgres:latest
+>>>>>>> master
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -19,6 +26,7 @@ services:
       - "8080:8080"
     depends_on:
       - db
+<<<<<<< HEAD
 
   redis:
     image: redis
@@ -27,3 +35,16 @@ services:
       
 volumes:
   db-data:
+=======
+  
+  redis:
+    image: redis:latest
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis-data:/data
+
+volumes:
+  db-data:
+  redis-data:
+>>>>>>> master

@@ -6,7 +6,11 @@ const envSchema = z.object({
     PORT: z.string().default('3000'),
     LOG_LEVEL: z.string().default('info'),
     NODE_ENV: z.enum(['development', 'production']).default('development'),
+
+    ORIGIN: z.string().default('http://localhost:3000,http://localhost:3001'),
+
     SECRET_KEY: z.string(),
+
     DB_HOST: z.string().default('localhost'),
     DB_USER: z.string(),
     DB_PASSWORD: z.string(),

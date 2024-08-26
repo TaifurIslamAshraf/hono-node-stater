@@ -11,6 +11,7 @@ export const user = pgTable('user', {
     updatedAt: timestamp('updated_at', { mode: 'string' }).notNull().defaultNow(),
 });
 
+<<<<<<< HEAD
 // export const userRelations = relations(user, ({ many }) => ({
 // 	posts: many(post),
 // }));
@@ -43,5 +44,7 @@ export const user = pgTable('user', {
 // 	}),
 // ]);
 
+=======
+>>>>>>> master
 // export type UserSchema = z.infer<typeof userSchema>;
 export type SelectUserModel = InferSelectModel<typeof user>;

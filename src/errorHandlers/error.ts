@@ -7,6 +7,10 @@ const serveNotFound = (c: Context) => {
     return c.json({ error: getReasonPhrase(StatusCodes.NOT_FOUND) }, <StatusCode>StatusCodes.NOT_FOUND);
 };
 
+const serveConflict = (c: Context, message: string) => {
+    return c.json({ error: message }, <StatusCode>StatusCodes.CONFLICT);
+};
+
 const serveBadRequest = (c: Context, message: string) => {
     return c.json({ error: message }, <StatusCode>StatusCodes.BAD_REQUEST);
 };
@@ -39,6 +43,7 @@ const ERRORS = {
 export {
     ERRORS,
     serveBadRequest,
+    serveConflict,
     serveError,
     serveInternalServerError,
     serveNotFound,
