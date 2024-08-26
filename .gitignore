@@ -16,10 +16,6 @@ dist
 # env
 .env
 .env.production
-<<<<<<< HEAD
-.env.template
-=======
->>>>>>> master
 
 # logs
 logs/

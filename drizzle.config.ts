@@ -9,10 +9,6 @@ export default defineConfig({
     dbCredentials: {
         url: env.DATABASE_URL,
     },
-<<<<<<< HEAD
-=======
-
->>>>>>> master
     verbose: true,
     strict: true,
 });
